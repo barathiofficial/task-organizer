@@ -23,10 +23,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 			}
 		})
 
-		if (!user) {
-			throw new Error('Token missing')
-		}
-
 		delete user.password
 
 		return user
