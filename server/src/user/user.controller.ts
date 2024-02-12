@@ -1,15 +1,21 @@
 import {
+	Body,
 	Controller,
 	Get,
 	HttpCode,
 	HttpStatus,
+	Patch,
+	Post,
 	UseGuards
 } from '@nestjs/common'
+import { ApiTags } from '@nestjs/swagger'
 import { User } from '@prisma/client'
 import { GetUser } from '../auth/decorator'
 import { JwtGuard } from '../auth/guard'
+import { UpdatePasswordDto, UpdateUserDto } from './dto'
 import { UserService } from './user.service'
 
+@ApiTags('users')
 @UseGuards(JwtGuard)
 @Controller('users')
 export class UserController {
@@ -17,7 +23,40 @@ export class UserController {
 
 	@HttpCode(HttpStatus.OK)
 	@Get('me')
-	findOne(@GetUser() user: User) {
+	getMe(@GetUser() user: User) {
 		return user
+	}
+
+	@HttpCode(HttpStatus.OK)
+	@Patch('me')
+	async update(@GetUser('id') id: string, @Body() data: UpdateUserDto) {
+		try {
+			const user = await this.userService.update(data, id)
+
+			delete user.password
+
+			return user
+		} catch (error) {
+			throw error
+		}
+	}
+
+	@HttpCode(HttpStatus.OK)
+	@Post('change_password')
+	async updatePassword(
+		@GetUser('id') id: string,
+		@Body() data: UpdatePasswordDto
+	) {
+		try {
+			const user = await this.userService.updatePassword(data, id)
+
+			delete user.password
+
+			return {
+				message: 'Password updated'
+			}
+		} catch (error) {
+			throw error
+		}
 	}
 }
