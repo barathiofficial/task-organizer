@@ -7,35 +7,29 @@ import {
 } from 'class-validator'
 
 class EnvDto {
-	@IsString({ message: 'Must be a string' })
-	@IsNotEmpty({ message: 'Required' })
+	@IsString({ message: 'MYSQL_USER must be a string' })
+	@IsNotEmpty({ message: 'MYSQL_USER required' })
 	MYSQL_USER: string
 
-	@IsString({ message: 'Must be a string' })
-	@IsNotEmpty({ message: 'Required' })
+	@IsString({ message: 'MYSQL_PASSWORD must be a string' })
+	@IsNotEmpty({ message: 'MYSQL_PASSWORD required' })
 	MYSQL_PASSWORD: string
 
-	@IsNumberString({}, { message: 'Must be a number' })
-	@IsNotEmpty({ message: 'Required' })
+	@IsNumberString({}, { message: 'MYSQL_PORT must be a number' })
+	@IsNotEmpty({ message: 'MYSQL_PORT required' })
 	MYSQL_PORT: string
 
-	@IsString({ message: 'Must be a string' })
-	@IsNotEmpty({ message: 'Required' })
+	@IsString({ message: 'MYSQL_DATABASE must be a string' })
+	@IsNotEmpty({ message: 'MYSQL_DATABASE required' })
 	MYSQL_DATABASE: string
 
-	@IsString({ message: 'Must be a string' })
-	@IsNotEmpty({ message: 'Required' })
+	@IsString({ message: 'DATABASE_URL must be a string' })
+	@IsNotEmpty({ message: 'DATABASE_URL required' })
 	DATABASE_URL: string
 
-	@IsString({ message: 'Must be a string' })
-	@IsNotEmpty({ message: 'Required' })
+	@IsString({ message: 'JWT_SECRET must be a string' })
+	@IsNotEmpty({ message: 'JWT_SECRET required' })
 	JWT_SECRET: string
-}
-
-class EnvException extends Error {
-	constructor(message: string) {
-		super(message)
-	}
 }
 
 export function validate(config: Record<string, unknown>) {
@@ -48,19 +42,11 @@ export function validate(config: Record<string, unknown>) {
 	})
 
 	if (errors.length > 0) {
-		let error = errors
-			.map((error) => {
-				return Object.values(error.constraints)
-					.map((message) => {
-						return message + ' - ' + error.property
-					})
-					.join('\n\t')
-			})
-			.join('\n\t')
+		const error = errors
+			.map((error) => Object.values(error.constraints).join())
+			.join()
 
-		error = '\t' + error + '\n'
-
-		throw new EnvException(error)
+		throw new Error(error)
 	}
 
 	return validatedConfig
