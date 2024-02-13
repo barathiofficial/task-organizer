@@ -1,14 +1,11 @@
 import { ApiProperty, PickType } from '@nestjs/swagger'
 import { User } from '@prisma/client'
-import {
-	IsEmail,
-	IsNotEmpty,
-	IsString,
-	IsStrongPassword
-} from 'class-validator'
+import { IsEmail, IsNotEmpty, IsStrongPassword, IsUUID } from 'class-validator'
 
 export class UserDto implements User {
 	@ApiProperty({ example: 'ba7dd23c-618f-47e4-ad89-e696b71e8077' })
+	@IsUUID('all', { message: 'Invalid id' })
+	@IsNotEmpty({ message: 'Id is required' })
 	id: string
 
 	@ApiProperty({ example: 'johndoe@example.com' })
@@ -31,7 +28,6 @@ export class UserDto implements User {
 	password: string
 
 	@ApiProperty({ example: 'John Doe' })
-	@IsString({ message: 'Name should be a string' })
 	@IsNotEmpty({ message: 'Name is required' })
 	name: string
 

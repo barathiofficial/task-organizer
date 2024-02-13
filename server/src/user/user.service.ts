@@ -27,7 +27,7 @@ export class UserService {
 		})
 	}
 
-	update(data: UpdateUserDto, id: string) {
+	update(id: string, data: UpdateUserDto) {
 		return this.db.user.update({
 			data,
 			where: {
@@ -36,7 +36,7 @@ export class UserService {
 		})
 	}
 
-	updatePassword(data: UpdatePasswordDto, id: string) {
+	updatePassword(id: string, data: UpdatePasswordDto) {
 		return this.db.user.update({
 			data,
 			where: {

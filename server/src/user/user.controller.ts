@@ -32,7 +32,7 @@ export class UserController {
 	@Patch('me')
 	async update(@GetUser('id') id: string, @Body() data: UpdateUserDto) {
 		try {
-			const user = await this.userService.update(data, id)
+			const user = await this.userService.update(id, data)
 
 			delete user.password
 
@@ -49,7 +49,7 @@ export class UserController {
 		@Body() data: UpdatePasswordDto
 	) {
 		try {
-			const user = await this.userService.updatePassword(data, id)
+			const user = await this.userService.updatePassword(id, data)
 
 			delete user.password
 

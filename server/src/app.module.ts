@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import { AuthModule } from './auth/auth.module'
 import { DatabaseModule } from './database/database.module'
+import { TaskModule } from './task/task.module'
 import { UserModule } from './user/user.module'
 import { validate } from './utils/env.validate'
 
@@ -13,7 +14,8 @@ import { validate } from './utils/env.validate'
 		}),
 		DatabaseModule,
 		AuthModule,
-		UserModule
+		UserModule,
+		TaskModule
 	]
 })
 export class AppModule {}
