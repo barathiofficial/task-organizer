@@ -8,11 +8,16 @@ import {
 	InternalServerErrorException,
 	Post
 } from '@nestjs/common'
-import { ApiTags } from '@nestjs/swagger'
+import {
+	ApiConflictResponse,
+	ApiCreatedResponse,
+	ApiTags
+} from '@nestjs/swagger'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
 import { UserService } from '../user/user.service'
 import { AuthService } from './auth.service'
 import { AuthDto } from './dto'
+import { UserDto } from '../user/dto'
 
 @ApiTags('auth')
 @Controller('auth')
@@ -23,6 +28,8 @@ export class AuthController {
 	) {}
 
 	@Post('signup')
+	@ApiCreatedResponse({ type: UserDto })
+	@ApiConflictResponse({ type: ConflictException })
 	async signup(@Body() data: AuthDto) {
 		try {
 			data.password = await this.authService.hashPassword(data.password)
