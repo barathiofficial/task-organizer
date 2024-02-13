@@ -8,13 +8,14 @@ import {
 	Post,
 	UseGuards
 } from '@nestjs/common'
-import { ApiTags } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { User } from '@prisma/client'
 import { GetUser } from '../auth/decorator'
 import { JwtGuard } from '../auth/guard'
 import { UpdatePasswordDto, UpdateUserDto } from './dto'
 import { UserService } from './user.service'
 
+@ApiBearerAuth()
 @ApiTags('users')
 @UseGuards(JwtGuard)
 @Controller('users')
