@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
+import { ServeStaticModule } from '@nestjs/serve-static'
+import * as path from 'path'
 import { AuthModule } from './auth/auth.module'
 import { DatabaseModule } from './database/database.module'
 import { TaskModule } from './task/task.module'
@@ -11,6 +13,9 @@ import { validate } from './utils/env.validate'
 		ConfigModule.forRoot({
 			validate,
 			isGlobal: true
+		}),
+		ServeStaticModule.forRoot({
+			rootPath: path.join(__dirname, '..', '..', 'react', 'dist')
 		}),
 		DatabaseModule,
 		AuthModule,

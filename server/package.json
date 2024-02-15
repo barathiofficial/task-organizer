@@ -27,6 +27,7 @@
 		"@nestjs/mapped-types": "*",
 		"@nestjs/passport": "^10.0.3",
 		"@nestjs/platform-express": "^10.0.0",
+		"@nestjs/serve-static": "^4.0.1",
 		"@nestjs/swagger": "^7.3.0",
 		"@prisma/client": "^5.9.1",
 		"argon2": "^0.31.2",
@@ -81,4 +82,3 @@
 		"testEnvironment": "node"
 	}
 }
-
