@@ -15,6 +15,7 @@ export class AuthService {
 	}
 
 	verifyPassword(hash: string, password: string) {
+		console.log({ arguments })
 		return argon.verify(hash, password)
 	}
 
